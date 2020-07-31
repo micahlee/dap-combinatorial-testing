@@ -1,0 +1,3 @@
+#!/bin/bash -eu
+
+pict dap_testing.pict /o:3 | sed "s/	/ | /g" | sed "s/^/| /g" | sed "s/$/ |/g"

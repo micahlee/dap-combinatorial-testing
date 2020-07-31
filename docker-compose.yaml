@@ -1,0 +1,12 @@
+version: "3"
+services:
+  cucumber:
+    build: .
+    volumes:
+      - ".:/usr/src/app"
+
+  dev:
+    build: .
+    entrypoint: bash
+    volumes:
+      - ".:/usr/src/app"

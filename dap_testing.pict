@@ -1,0 +1,29 @@
+#
+# Options for the configuration of the DAP environment
+#
+Master Key Encryption: master key encryption is enabled, master key encryption is not enabled
+Master Key Encryption Mode: a key file, an HSM, NA
+3rd Party Certs: am using 3rd party certs, am not using 3rd party certs
+
+# Not sure how to test this at the moment
+Cluster: standalone master, cluster
+Auto-failover: auto-failover is configured, auto-failover is not configured
+
+#
+# Options for the initial state, and the the procedure under test
+#
+Given: clean, upgraded, promoted, restored, failed over
+When: upgrade, promote, backup and restore, failover
+
+
+IF [Auto-failover] = "auto-failover is configured" THEN [Cluster] = "cluster";
+
+IF [Master Key Encryption] = "master key encryption is not enabled" 
+  THEN [Master Key Encryption Mode] = "NA"
+  ELSE [Master Key Encryption Mode] <> "NA";
+
+IF [Given] = "promoted" OR [When] = "promote" THEN [Auto-failover] = "auto-failover is not configured" AND [Cluster] = "cluster";
+
+IF [Given] = "failed over" OR [When] = "failover" THEN [Auto-failover] = "auto-failover is configured";
+
+IF [Given] = "upgraded" THEN [When] <> "upgrade";
